@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            gap: 90px;
+            padding: 20px;
+            background-image: url('assets/images/background-desktop.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 40px;
+            justify-content: center;
+            align-items: center;
+
+            .ticket {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .row {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 20px;
+
+                    .column {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: start;
+                    }
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo"><img src="assets/images/logo-full.svg" alt="" /></div>
+        <h1>Congrats, <span class="nameTwo"></span>! Your ticket is ready.</h1>
+        <p>We've emailed your ticket to <span class="emailTwo"></span> and will send updates in the run up to the event.
+        </p>
+        <div class="ticket">
+            <div class="row">
+                <img src="assets/images/logo-mark.svg" alt="" />
+                <div class="column">
+                    <span>Coding Conf</span>
+                    <span>Jan 31, 2025 / Austin, TX</span>
+                </div>
+            </div>
+            <div class="row">
+                <img src="" alt="avatar" class="avatarTwo" />
+                <span class="nameTwo"></span>
+                <span class="userName"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const name = localStorage.getItem('name');
+        const email = localStorage.getItem('email');
+        const github = localStorage.getItem('github');
+        const avatar = localStorage.getItem('avatar');
+
+        const nameTwo = document.querySelectorAll('.nameTwo');
+        const emailTwo = document.querySelector('.emailTwo');
+        const userName = document.querySelector('.userName');
+        const avatarTwo = document.querySelector('.avatarTwo');
+
+        nameTwo.forEach(el => el.textContent = name);
+        emailTwo.textContent = email;
+        userName.textContent = github;
+        avatarTwo.src = avatar;
+        avatarTwo.style.width = '60px'
+        avatarTwo.style.height = '60px'
+        avatarTwo.style.objectFit = 'cover'
+        avatarTwo.style.borderRadius = '50%'
+    </script>
+</body>
+
+</html>

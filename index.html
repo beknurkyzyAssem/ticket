@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png" />
+    <title>Frontend Mentor | Conference ticket generator</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            gap: 90px;
+            padding: 20px;
+            background-image: url('assets/images/background-desktop.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+
+        form {
+            padding: 0 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            input {
+                background-color: transparent;
+                padding: 10px;
+                border-radius: 6px;
+                border: 1px white solid;
+            }
+
+            input ::placeholder {
+                color: white;
+            }
+
+            button {
+                border-radius: 6px;
+                outline: none;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+            }
+
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            filter: blur(50%);
+            color: white;
+            border-radius: 6px;
+        }
+
+        @media screen and (max-width: 970px) {
+            body {
+                background-image: url('assets/images/background-mobile.png');
+            }
+
+            form {
+                padding: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo"><img src="assets/images/logo-full.svg" alt="" /></div>
+        <h1>Your Journey to Coding Conf 2025 Starts Here!</h1>
+        <p>Secure your spot at next year's biggest coding conference.</p>
+    </div>
+
+    <form>
+        <div class="upload-area" id="uploadArea">
+            <p>Drag & drop or click to upload</p>
+            <input type="file" id="fileInput" accept="image/*" hidden />
+            <img id="preview" src="" alt="Image preview" style="display: none; max-width: 200px; margin-top: 10px;" />
+        </div>
+        <span>Upload your photo (JPG or PNG, max size: 500KB).</span>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" class="inputName" />
+        <label for="email">Email Address</label>
+        <input type="email" placeholder="example@email.com" id="email" class="inputEmail" />
+        <label for="github">GitHub Username</label>
+        <input type="text" placeholder="@yourusername" id="github" class="inputGithub" />
+        <button class="bntEl" type="button">Generate My Ticket</button>
+    </form>
+
+    <script>
+        const btnEl = document.querySelector('.bntEl');
+        const preview = document.getElementById('preview');
+
+        btnEl.addEventListener('click', function () {
+            const inputName = document.querySelector('.inputName').value.trim();
+            const inputEmail = document.querySelector('.inputEmail').value.trim();
+            const inputGithub = document.querySelector('.inputGithub').value.trim();
+            const avatarBase64 = preview.src;
+
+            localStorage.setItem('name', inputName);
+            localStorage.setItem('email', inputEmail);
+            localStorage.setItem('github', inputGithub);
+            localStorage.setItem('avatar', avatarBase64);
+
+            window.location.href = 'ticket.html';
+        });
+
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFiles);
+
+        uploadArea.addEventListener('dragover', e => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', e => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles({ target: { files: e.dataTransfer.files } });
+        });
+
+        function handleFiles(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    preview.src = reader.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Only image files are allowed.');
+            }
+        }
+    </script>
+</body>
+
+</html>
