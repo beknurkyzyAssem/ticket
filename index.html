@@ -126,27 +126,26 @@
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
 
-        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('click', function () {
+            fileInput.click();
+        });
+
         fileInput.addEventListener('change', handleFiles);
 
-        uploadArea.addEventListener('dragover', e => {
+        uploadArea.addEventListener('dragover', function (e) {
             e.preventDefault();
-            uploadArea.classList.add('dragover');
         });
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-        uploadArea.addEventListener('drop', e => {
+
+        uploadArea.addEventListener('drop', function (e) {
             e.preventDefault();
-            uploadArea.classList.remove('dragover');
             handleFiles({ target: { files: e.dataTransfer.files } });
         });
 
         function handleFiles(e) {
             const file = e.target.files[0];
             if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = () => {
+                var reader = new FileReader();
+                reader.onload = function () {
                     preview.src = reader.result;
                     preview.style.display = 'block';
                 };
@@ -155,6 +154,7 @@
                 alert('Only image files are allowed.');
             }
         }
+
     </script>
 </body>
 
